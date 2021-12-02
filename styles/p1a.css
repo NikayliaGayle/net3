@@ -1,0 +1,25 @@
+#B{
+    display: none;
+}
+
+body{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 13px;
+}
+.dark{
+    width:100%;
+    background-color: #dfe1e7;
+}
+.light{
+    width:100%;
+    background-color: #eeeff2;
+}
+
+table{
+    border:2px solid #d0d0ff;
+}
+
+table tr{
+    display:grid;
+    grid-template-columns: 50% 50%;
+}
