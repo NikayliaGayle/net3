@@ -2,6 +2,7 @@ window.onload = function() {
     var submit=document.getElementById("submit");
     submit.addEventListener("click", validate);
     
+    //this function validates each of the data collected from the user on the client side
     function validate(){
         console.log("clicked")
         var clerk=document.querySelector("#clerk").value.trim();
@@ -14,8 +15,8 @@ window.onload = function() {
         var total=document.querySelector("#total").value.trim();
         //console.log(pollID,pollSt,cand1,cand2,rejected,total);
        
-        var numbers= /^[0-9]+$/;
-        var alpha= /^[A-Z0-9]+$/;
+        var numbers= /^[0-9]+$/; //this is the regular expression to test integers
+        var alpha= /^[A-Z0-9]+$/; //this is the regular expression to test capital letters and integers
         
         if (!(clerk.match(numbers)) || clerk==""){
             console.log("no");
@@ -87,6 +88,7 @@ window.onload = function() {
             document.getElementById("total").style.borderColor="black";
         }
 
+        //establishing an AJAX connection 
         const htr= new XMLHttpRequest();
         htr.onreadystatechange = function(){
             if(this.readyState === XMLHttpRequest.DONE && this.status === 200){

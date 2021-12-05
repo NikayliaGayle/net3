@@ -7,6 +7,7 @@ if(!$conn){
     echo'Connection Error:' . mysqli_connect_error();
 }
 
+//receiving the data sent over by the Javascript file
 $clerk=$_GET["clerk"];
 $constit=$_GET["constit"];
 $pollID=$_GET["pollID"];
@@ -20,7 +21,8 @@ $total=$_GET["total"];
 $numbers="/^[0-9]+$/";
 $alpha="/^[A-Z0-9]+$/";
 
-if ($clerk=="" || !(preg_match($numbers,$clerk))){
+//tests if the data sent over matches the given criteria
+if ($clerk=="" || !(preg_match($numbers,$clerk))){  
     echo "Invalid Clerk ID";
     return;
 }
@@ -64,23 +66,28 @@ $cand2= mysqli_real_escape_string($conn, $cand2);
 $rejected= mysqli_real_escape_string($conn, $rejected);
 $total= mysqli_real_escape_string($conn, $total);
 
+//adding to the table stationvotes in the database
 $stmt = "INSERT into StationVotes (constituency_id, clerk_id, poll_division_id, polling_station_code, candidate1Votes, candidate2Votes, rejectedVotes, totalVotes)
 VALUES ('$constit','$clerk','$pollID','$pollSt','$cand1','$cand2','$rejected','$total')";
 mysqli_query($conn, $stmt);
 
+//printing everything from the stationvotes table in the database
 $getall="SELECT * from StationVotes";
 $results = mysqli_query($conn, $getall);
-
+$final1=0;
+$final2=0;
+$final3=0;
+$final4=0;
 echo "<table id='TableB'>";
 
 echo "<tr>";
 echo "<th class='left'>Constituency</th>";
-echo "<th class='left'>Polling Division ID</th>";
-echo "<th class='left'>Polling Station Code</th>";
-echo "<th class='right'>Candidate 1 Votes</th>";
-echo "<th class='right'>Candidate 2 Votes</th>";
-echo "<th class='right'>Rejected Votes</th>";
-echo "<th class='right'>Total Votes</th>";
+echo "<th class='left'>Polling Div.</th>";
+echo "<th class='left'>Polling Stn</th>";
+echo "<th class='right'>Candidate1</th>";
+echo "<th class='right'>Candidate2</th>";
+echo "<th class='right'>Rejected</th>";
+echo "<th class='right'>Total</th>";
 echo "</tr>";
 
 foreach ($results as $row){
@@ -93,8 +100,22 @@ foreach ($results as $row){
     echo "<td class='right'>" .$row['rejectedVotes']. "</td> \n";
     echo "<td class='right'>" .$row['totalVotes']. "</td> \n";
     echo "</tr>";
+    $final1=$final1+$row['candidate1Votes'];
+    $final2=$final2+$row['candidate2Votes'];
+    $final3=$final3+$row['rejectedVotes'];
+    $final4=$final4+ $row['totalVotes'];
 }
+echo "<tr id='bordered'>";
+echo "<th class='left'>Total</th>";
+echo "<th class='left'></th>";
+echo "<th class='left'></th>";
+echo "<th class='right'>$final1</th>";
+echo "<th class='right'>$final2</th>";
+echo "<th class='right'>$final3</th>";
+echo "<th class='right'>$final4</th>";
+echo "</tr>";
 echo "</table>";
+
 
 
 
